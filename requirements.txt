@@ -1,0 +1,2 @@
+# Place your requirements here
+python-telegram-bot[all]
