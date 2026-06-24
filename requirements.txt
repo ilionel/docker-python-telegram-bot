@@ -1,2 +1,2 @@
-# Place your requirements here
-python-telegram-bot[all]
+# Pinned to the v21 line (async Application API used by bot.py).
+python-telegram-bot[all]~=21.0
