@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS bot
+FROM python:3.14-alpine AS bot
 
 ENV PYTHONFAULTHANDLER=1
 ENV PYTHONUNBUFFERED=1
