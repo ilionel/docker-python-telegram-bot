@@ -1,25 +1,23 @@
-FROM alpine AS bot
+FROM python:3.12-alpine AS bot
 
 ENV PYTHONFAULTHANDLER=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONHASHSEED=random
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONDONTWRITEBYTECODE=1
 ENV PIP_NO_CACHE_DIR=off
 ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 ENV PIP_DEFAULT_TIMEOUT=100
 
-# Env vars
-ENV TELEGRAM_TOKEN ${TELEGRAM_TOKEN}
-
-RUN apk add --no-cache python3 py3-pip
+# The bot token is provided at RUNTIME only (never baked into the image).
 RUN pip install --upgrade pip
 
 RUN adduser -D telegram-bot
 USER telegram-bot
 WORKDIR /home/telegram-bot
+ENV PATH="/home/telegram-bot/.local/bin:${PATH}"
 
 COPY --chown=telegram-bot:telegram-bot requirements.txt bot.py /home/telegram-bot/
 
-RUN pip3 install -r requirements.txt
+RUN pip install --user -r requirements.txt
 
 CMD ["python3", "bot.py"]

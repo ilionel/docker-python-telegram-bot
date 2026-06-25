@@ -1,0 +1,4 @@
+ignored:
+  - DL3008  # apt: pin versions (brittle across rebuilds)
+  - DL3013  # pip: pin versions (handled via requirements.txt)
+  - DL3018  # apk: pin versions

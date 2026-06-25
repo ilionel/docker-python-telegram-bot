@@ -1,26 +1,30 @@
+import logging
 import os
+
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import Application, CommandHandler, ContextTypes
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
 
 
-def hello(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(f"Hello {update.effective_user.first_name}")
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Reply to /hello with a greeting."""
+    await update.message.reply_text(f"Hello {update.effective_user.first_name}")
 
 
-def main():
-    # We create an Updater instance with our Telegram token.
-    updater = Updater(os.environ.get("TELEGRAM_TOKEN"))
+def main() -> None:
+    token = os.environ.get("TELEGRAM_TOKEN")
+    if not token:
+        raise SystemExit("TELEGRAM_TOKEN environment variable is not set")
 
-    # We register our command handlers.
-    updater.dispatcher.add_handler(CommandHandler("hello", hello))
+    application = Application.builder().token(token).build()
+    application.add_handler(CommandHandler("hello", hello))
 
-    # Let's start the bot!
-    # Calling this method is non-blocking.
-    updater.start_polling()
-
-    # Run the bot until you press Ctrl-C.
-    # Or until the process receives SIGINT, SIGTERM or SIGABRT.
-    updater.idle()
+    # Blocking; runs until the process receives SIGINT/SIGTERM/SIGABRT.
+    application.run_polling()
 
 
 if __name__ == "__main__":
