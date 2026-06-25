@@ -4,11 +4,20 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
   - package-ecosystem: pip
     directory: /
     schedule:
       interval: weekly
+    groups:
+      pip-minor:
+        update-types: ["minor", "patch"]
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
+    groups:
+      docker-minor:
+        update-types: ["minor", "patch"]
