@@ -1,2 +1,2 @@
 # Pinned to the v21 line (async Application API used by bot.py).
-python-telegram-bot[all]~=21.0
+python-telegram-bot[all]~=22.8
